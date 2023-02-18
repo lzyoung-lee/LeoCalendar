@@ -8,6 +8,7 @@ import com.tencent.wxcloudrun.service.DutyRosterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public class DutyRosterController {
    * 更新值班表
    */
   @PostMapping(value = "/api/updateDutyRoster")
-  ApiResponse updateDutyRoster(List<DutyRoster> list) {
+  ApiResponse updateDutyRoster(@RequestBody List<DutyRoster> list) {
     logger.info("/api/updateDutyRoster request");
     int result = dutyRosterService.updateDutyRoster(list);
     return ApiResponse.ok(result);
