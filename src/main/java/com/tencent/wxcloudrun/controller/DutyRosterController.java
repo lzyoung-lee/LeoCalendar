@@ -29,7 +29,6 @@ public class DutyRosterController {
 
   /**
    * 获取值班表
-   * @return API response json
    */
   @GetMapping(value = "/api/getDutyRosterList")
   ApiResponse getDutyRosterList() {
