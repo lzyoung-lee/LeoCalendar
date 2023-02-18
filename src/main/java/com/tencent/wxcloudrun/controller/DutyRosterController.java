@@ -31,10 +31,20 @@ public class DutyRosterController {
    * 获取值班表
    * @return API response json
    */
-  @GetMapping(value = "/api/dutyRosterList")
-  ApiResponse get() {
-    logger.info("/api/dutyRosterList get request");
+  @GetMapping(value = "/api/getDutyRosterList")
+  ApiResponse getDutyRosterList() {
+    logger.info("/api/getDutyRosterList request");
     List<DutyRoster> dutyRosterList = dutyRosterService.getDutyRosterList();
     return ApiResponse.ok(dutyRosterList);
+  }
+
+  /**
+   * 更新值班表
+   */
+  @PosetMapping(value = "/api/updateDutyRoster")
+  ApiResponse updateDutyRoster(List<DutyRoster> list) {
+    logger.info("/api/updateDutyRoster request");
+    int result = dutyRosterService.updateDutyRoster(list);
+    return ApiResponse.ok(result);
   }
 }

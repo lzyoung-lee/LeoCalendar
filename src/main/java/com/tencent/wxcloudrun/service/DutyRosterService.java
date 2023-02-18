@@ -5,4 +5,5 @@ import java.util.List;
 public interface DutyRosterService {
 
   List<DutyRoster> getDutyRosterList();
+  int updateDutyRoster(List<DutyRoster> list);
 }
