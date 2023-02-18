@@ -41,7 +41,7 @@ public class DutyRosterController {
   /**
    * 更新值班表
    */
-  @PosetMapping(value = "/api/updateDutyRoster")
+  @PostMapping(value = "/api/updateDutyRoster")
   ApiResponse updateDutyRoster(List<DutyRoster> list) {
     logger.info("/api/updateDutyRoster request");
     int result = dutyRosterService.updateDutyRoster(list);
