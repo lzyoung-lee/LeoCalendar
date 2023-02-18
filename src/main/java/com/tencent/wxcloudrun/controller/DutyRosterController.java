@@ -7,6 +7,7 @@ import com.tencent.wxcloudrun.model.DutyRoster;
 import com.tencent.wxcloudrun.service.DutyRosterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;

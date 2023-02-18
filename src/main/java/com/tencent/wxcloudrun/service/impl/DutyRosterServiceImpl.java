@@ -22,7 +22,7 @@ public class DutyRosterServiceImpl implements DutyRosterService {
     return dutyRosterMapper.getDutyRosterList();
   }
 
-  @override
+  @Override
   public int updateDutyRoster(List<DutyRoster> list) {
     return dutyRosterMapper.updateDutyRoster(list);
   }
