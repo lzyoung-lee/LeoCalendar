@@ -9,4 +9,11 @@ public class DutyRoster implements Serializable {
   private String name;
   private Integer order;
   private String color;
+
+  DutyRoster() {
+    id = 0;
+    name = "";
+    order = 0;
+    color = "";
+  }
 }
