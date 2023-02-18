@@ -43,9 +43,10 @@ public class DutyRosterController {
    * 更新值班表
    */
   @PostMapping(value = "/api/updateDutyRoster")
-  ApiResponse updateDutyRoster(@RequestBody List<DutyRoster> list) {
+  ApiResponse updateDutyRoster(@RequestBody DutyRoster[] list) {
     logger.info("/api/updateDutyRoster request");
-    int result = dutyRosterService.updateDutyRoster(list);
+    int result = 0;
+    // int result = dutyRosterService.updateDutyRoster(list);
     return ApiResponse.ok(result);
   }
 }
