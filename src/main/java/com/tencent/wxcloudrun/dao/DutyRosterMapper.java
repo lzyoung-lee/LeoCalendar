@@ -9,5 +9,5 @@ import java.util.List;
 public interface DutyRosterMapper {
 
   List<DutyRoster> getDutyRosterList();
-  int updateDutyRoster(List<DutyRoster> list);
+  int updateDutyRoster(@Param("list") List<DutyRoster> list);
 }
