@@ -7,13 +7,13 @@ public class DutyRoster implements Serializable {
 
   private Integer id;
   private String name;
-  private Integer order;
+  private Integer orderNo;
   private String color;
 
   DutyRoster() {
     id = 0;
     name = "";
-    order = 0;
+    orderNo = 0;
     color = "";
   }
 }

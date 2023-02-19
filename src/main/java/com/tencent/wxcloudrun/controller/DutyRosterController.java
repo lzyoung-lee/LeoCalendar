@@ -6,6 +6,7 @@ import com.tencent.wxcloudrun.config.ApiResponse;
 import com.tencent.wxcloudrun.model.DutyRoster;
 import com.tencent.wxcloudrun.service.DutyRosterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jackson.JsonObjectDeserializer;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,10 +44,9 @@ public class DutyRosterController {
    * 更新值班表
    */
   @PostMapping(value = "/api/updateDutyRoster")
-  ApiResponse updateDutyRoster(@RequestBody DutyRoster[] list) {
+  ApiResponse updateDutyRoster(@RequestBody List<DutyRoster> list) {
     logger.info("/api/updateDutyRoster request");
-    int result = 0;
-    // int result = dutyRosterService.updateDutyRoster(list);
+    int result = dutyRosterService.updateDutyRoster(list);
     return ApiResponse.ok(result);
   }
 }
