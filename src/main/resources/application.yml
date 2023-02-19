@@ -5,12 +5,12 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    # url: jdbc:mysql://${MYSQL_ADDRESS}/${MYSQL_DATABASE:leo_calendar}
-    # username: ${MYSQL_USERNAME}
-    # password: ${MySQL_PASSWORD}
-    url: jdbc:mysql://sh-cynosdbmysql-grp-27qkytf8.sql.tencentcdb.com:28749/leo_calendar
-    username: root
-    password: Skg4mRkJ
+    url: jdbc:mysql://${MYSQL_ADDRESS}/${MYSQL_DATABASE:leo_calendar}?allowMultiQueries=true
+    username: ${MYSQL_USERNAME}
+    password: ${MySQL_PASSWORD}
+    # url: jdbc:mysql://sh-cynosdbmysql-grp-27qkytf8.sql.tencentcdb.com:28749/leo_calendar?allowMultiQueries=true
+    # username: root
+    # password: Skg4mRkJ
   mvc:
     view:
       suffix: .html
