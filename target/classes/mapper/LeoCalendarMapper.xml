@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tencent.wxcloudrun.dao.DutyRosterMapper">
+<mapper namespace="com.tencent.wxcloudrun.dao.LeoCalendarMapper">
 
     <resultMap id="dutyRosterMapper" type="com.tencent.wxcloudrun.model.DutyRoster">
         <id property="id" column="id"/>
@@ -23,5 +23,18 @@
             where id = #{item.id,jdbcType=INTEGER}
         </foreach>  
     </update>
+
+    <resultMap id="holidaysMapper" type="com.tencent.wxcloudrun.model.Holidays">
+        <id property="id" column="id"/>
+        <result property="month" column="month"/>
+        <result property="day" column="day"/>
+        <result property="type" column="type"/>
+        <result property="info" column="info"/>
+    </resultMap>
+
+    <select id="getHolidaysList" resultMap="holidaysMapper">
+        SELECT `id`, `month`, `day`, `type`, `info`
+        FROM holidays
+    </select>
 
 </mapper>

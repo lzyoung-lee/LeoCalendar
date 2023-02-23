@@ -4,9 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.tencent.wxcloudrun.config.ApiResponse;
 import com.tencent.wxcloudrun.model.DutyRoster;
-import com.tencent.wxcloudrun.service.DutyRosterService;
+import com.tencent.wxcloudrun.model.Holidays;
+import com.tencent.wxcloudrun.service.LeoCalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jackson.JsonObjectDeserializer;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,14 +19,14 @@ import java.util.List;
  */
 @RestController
 
-public class DutyRosterController {
+public class LeoCalendarController {
 
-  final DutyRosterService dutyRosterService;
+  final LeoCalendarService leoCalendarService;
   final Logger logger;
 
-  public DutyRosterController(@Autowired DutyRosterService dutyRosterService) {
-    this.dutyRosterService = dutyRosterService;
-    this.logger = LoggerFactory.getLogger(DutyRosterController.class);
+  public LeoCalendarController(@Autowired LeoCalendarService leoCalendarService) {
+    this.leoCalendarService = leoCalendarService;
+    this.logger = LoggerFactory.getLogger(LeoCalendarController.class);
   }
 
 
@@ -36,7 +36,7 @@ public class DutyRosterController {
   @GetMapping(value = "/api/getDutyRosterList")
   ApiResponse getDutyRosterList() {
     logger.info("/api/getDutyRosterList request");
-    List<DutyRoster> dutyRosterList = dutyRosterService.getDutyRosterList();
+    List<DutyRoster> dutyRosterList = leoCalendarService.getDutyRosterList();
     return ApiResponse.ok(dutyRosterList);
   }
 
@@ -46,7 +46,18 @@ public class DutyRosterController {
   @PostMapping(value = "/api/updateDutyRoster")
   ApiResponse updateDutyRoster(@RequestBody List<DutyRoster> list) {
     logger.info("/api/updateDutyRoster request");
-    int result = dutyRosterService.updateDutyRoster(list);
+    int result = leoCalendarService.updateDutyRoster(list);
     return ApiResponse.ok(result);
   }
+
+  /**
+   * 获取节假日表
+   */
+  @GetMapping(value = "/api/getHolidaysList")
+  ApiResponse getHolidaysList() {
+    logger.info("/api/getHolidaysList request");
+    List<Holidays> holidaysList = leoCalendarService.getHolidaysList();
+    return ApiResponse.ok(holidaysList);
+  }
+
 }
