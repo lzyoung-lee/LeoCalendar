@@ -2,8 +2,9 @@ package com.tencent.wxcloudrun.service.impl;
 
 import com.tencent.wxcloudrun.cache.LeoCalendarCache;
 import com.tencent.wxcloudrun.dao.LeoCalendarMapper;
+import com.tencent.wxcloudrun.model.ChangeDuty;
 import com.tencent.wxcloudrun.model.DutyRoster;
-import com.tencent.wxcloudrun.model.Holidays;
+import com.tencent.wxcloudrun.model.Holiday;
 import com.tencent.wxcloudrun.service.LeoCalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,54 @@ public class LeoCalendarServiceImpl implements LeoCalendarService {
   }
 
   @Override
-  public List<Holidays> getHolidaysList() {
-    return LeoCalendarCache.holidaysList;
+  public List<Holiday> getHolidayList() {
+    return LeoCalendarCache.holidayList;
   }
+
+  @Override
+  public List<ChangeDuty> getChangeDutyList() {
+    return LeoCalendarCache.changeDutyList;
+  }
+
+  @Override
+  public int addChangeDutys(List<ChangeDuty> list) {
+    int result = leoCalendarMapper.addChangeDutys(list);
+    if(result > 0) {
+      for (ChangeDuty changeDuty : list) {
+        ChangeDuty data = LeoCalendarCache.changeDutyList.stream()
+        .filter(item -> ((changeDuty.getMonth() == item.getMonth()) && (changeDuty.getDay() == item.getDay())))
+        .findAny().orElse(null);
+        
+        if(null != data) {
+          int index = LeoCalendarCache.changeDutyList.indexOf(data);
+          LeoCalendarCache.changeDutyList.set(index, changeDuty);
+        } else {
+          LeoCalendarCache.changeDutyList.add(changeDuty);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  @Override
+  public int deleteChangeDutys(List<ChangeDuty> list) {
+    int result = leoCalendarMapper.deleteChangeDutys(list);
+    if(result > 0) {
+      for (ChangeDuty changeDuty : list) {
+        LeoCalendarCache.changeDutyList.remove(changeDuty);
+        ChangeDuty data = LeoCalendarCache.changeDutyList.stream()
+        .filter(item -> ((changeDuty.getMonth() == item.getMonth()) && (changeDuty.getDay() == item.getDay())))
+        .findAny().orElse(null);
+
+        if(null != data) {
+          LeoCalendarCache.changeDutyList.remove(data);
+        }
+      }
+    }
+
+    System.out.println(LeoCalendarCache.changeDutyList);
+    return result;
+  }
+
 }

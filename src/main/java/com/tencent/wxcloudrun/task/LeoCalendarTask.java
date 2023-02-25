@@ -1,11 +1,8 @@
 package com.tencent.wxcloudrun.task;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +12,7 @@ import org.springframework.stereotype.Component;
 import com.tencent.wxcloudrun.cache.LeoCalendarCache;
 import com.tencent.wxcloudrun.dao.LeoCalendarMapper;
 import com.tencent.wxcloudrun.model.DutyRoster;
-import com.tencent.wxcloudrun.model.Holidays;
+import com.tencent.wxcloudrun.model.Holiday;
 
 @Component
 public class LeoCalendarTask {
@@ -45,6 +42,10 @@ public class LeoCalendarTask {
         if(result > 0) {
             LeoCalendarCache.dutyRosterList = dutyRosterList;
         }
+
+        // 清空change_duty表数据
+        leoCalendarMapper.clearChangeDuty();
+        LeoCalendarCache.changeDutyList.clear();
     }
 
     // 当月工作日
@@ -57,12 +58,12 @@ public class LeoCalendarTask {
         for(int index = 1; index <= daysOfMonth; ++index) {
             int day = index;
             calendar.set(Calendar.DATE, day);
-            Holidays holidays = LeoCalendarCache.holidaysList.stream()
+            Holiday holiday = LeoCalendarCache.holidayList.stream()
             .filter(item -> ((month == item.getMonth()) && (day == item.getDay())))
             .findAny().orElse(null);
 
-            if(null != holidays) {
-                if(!holidays.getType()) {
+            if(null != holiday) {
+                if(!holiday.getType()) {
                     wordays++;
                 }
             } else {

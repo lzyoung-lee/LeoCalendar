@@ -1,12 +1,12 @@
 package com.tencent.wxcloudrun.cache;
 
 import com.tencent.wxcloudrun.dao.LeoCalendarMapper;
+import com.tencent.wxcloudrun.model.ChangeDuty;
 import com.tencent.wxcloudrun.model.DutyRoster;
-import com.tencent.wxcloudrun.model.Holidays;
+import com.tencent.wxcloudrun.model.Holiday;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -15,7 +15,8 @@ import java.util.List;
 public class LeoCalendarCache {
 
   public static List<DutyRoster> dutyRosterList;
-  public static List<Holidays> holidaysList;
+  public static List<Holiday> holidayList;
+  public static List<ChangeDuty> changeDutyList;
 
   @Autowired
   private LeoCalendarMapper leoCalendarMapper;
@@ -32,7 +33,12 @@ public class LeoCalendarCache {
   }
 
   public void LoadHolidays() {
-    holidaysList = leoCalendarMapper.getHolidaysList();
-    System.out.println(holidaysList);
+    holidayList = leoCalendarMapper.getHolidayList();
+    System.out.println(holidayList);
+  }
+
+  public void LoadChangeDuty() {
+    changeDutyList = leoCalendarMapper.getChangeDutyList();
+    System.out.println(changeDutyList);
   }
 }

@@ -14,5 +14,6 @@ public class LeoCalendarStartupRunner implements CommandLineRunner {
   public void run(String... strings) throws Exception {
     leoCalendarCache.LoadDutyRoster();
     leoCalendarCache.LoadHolidays();
+    leoCalendarCache.LoadChangeDuty();
   }
 }

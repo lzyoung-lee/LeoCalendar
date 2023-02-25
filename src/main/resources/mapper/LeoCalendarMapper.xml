@@ -16,15 +16,15 @@
 
     <update id="updateDutyRoster" parameterType="java.util.List">
         <foreach collection="list" item="item" index="index" open="" close="" separator=";">
-            update duty_roster
+            UPDATE duty_roster
             <set>
                 orderNo = #{item.orderNo,jdbcType=INTEGER}
             </set>
-            where id = #{item.id,jdbcType=INTEGER}
+            WHERE id = #{item.id,jdbcType=INTEGER}
         </foreach>  
     </update>
 
-    <resultMap id="holidaysMapper" type="com.tencent.wxcloudrun.model.Holidays">
+    <resultMap id="holidayMapper" type="com.tencent.wxcloudrun.model.Holiday">
         <id property="id" column="id"/>
         <result property="month" column="month"/>
         <result property="day" column="day"/>
@@ -32,9 +32,45 @@
         <result property="info" column="info"/>
     </resultMap>
 
-    <select id="getHolidaysList" resultMap="holidaysMapper">
+    <select id="getHolidayList" resultMap="holidayMapper">
         SELECT `id`, `month`, `day`, `type`, `info`
-        FROM holidays
+        FROM holiday
     </select>
+
+    <resultMap id="changeDutyMapper" type="com.tencent.wxcloudrun.model.ChangeDuty">
+        <id property="month" column="month"/>
+        <id property="day" column="day"/>
+        <result property="name" column="name"/>
+        <result property="dutyId" column="dutyId"/>
+    </resultMap>
+
+    <select id="getChangeDutyList" resultMap="changeDutyMapper">
+        SELECT `month`, `day`, `name`, `dutyId`
+        FROM change_duty
+    </select>
+
+    <insert id="addChangeDutys" parameterType="java.util.List">
+        INSERT INTO change_duty(month, day, name, dutyId) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.month}, #{item.day}, #{item.name}, #{item.dutyId})
+        </foreach>
+        ON DUPLICATE KEY UPDATE 
+            name = VALUES(name), dutyId = VALUES(dutyId)
+    </insert>
+
+    <delete id="deleteChangeDutys" parameterType="java.util.List" >
+        DELETE FROM change_duty WHERE month IN
+        <foreach collection="list" item="item" open=" (" close=")" separator=",">
+            #{item.month}
+        </foreach>
+        AND day IN 
+        <foreach collection="list" item="item" open=" (" close=")" separator=",">
+            #{item.day}
+        </foreach>
+    </delete>
+
+    <update id="clearChangeDuty">
+        TRUNCATE TABLE change_duty
+    </update>
 
 </mapper>

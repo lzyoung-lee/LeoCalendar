@@ -3,7 +3,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class Holidays implements Serializable {
+public class Holiday implements Serializable {
 
   private Integer id;
   private Integer month;
@@ -11,7 +11,7 @@ public class Holidays implements Serializable {
   private Boolean type;
   private String info;
 
-  Holidays() {
+  Holiday() {
     id = 0;
     month = 0;
     day = 0;
