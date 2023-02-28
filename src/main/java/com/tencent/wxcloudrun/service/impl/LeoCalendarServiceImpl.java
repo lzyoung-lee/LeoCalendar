@@ -71,7 +71,6 @@ public class LeoCalendarServiceImpl implements LeoCalendarService {
     int result = leoCalendarMapper.deleteChangeDutys(list);
     if(result > 0) {
       for (ChangeDuty changeDuty : list) {
-        LeoCalendarCache.changeDutyList.remove(changeDuty);
         ChangeDuty data = LeoCalendarCache.changeDutyList.stream()
         .filter(item -> ((changeDuty.getMonth() == item.getMonth()) && (changeDuty.getDay() == item.getDay())))
         .findAny().orElse(null);

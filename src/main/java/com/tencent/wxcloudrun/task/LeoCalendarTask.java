@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.tencent.wxcloudrun.cache.LeoCalendarCache;
 import com.tencent.wxcloudrun.dao.LeoCalendarMapper;
+import com.tencent.wxcloudrun.model.ChangeDuty;
 import com.tencent.wxcloudrun.model.DutyRoster;
 import com.tencent.wxcloudrun.model.Holiday;
 
@@ -28,6 +29,7 @@ public class LeoCalendarTask {
         if(calendar.get(Calendar.DATE) != daysOfMonth())
             return;
 
+        // 重新计算下个月的排班表
         List<DutyRoster> dutyRosterList = LeoCalendarCache.dutyRosterList.stream().collect(Collectors.toList());
         int workdays = workdaysOfMonth();
         int size = dutyRosterList.size();
@@ -43,9 +45,14 @@ public class LeoCalendarTask {
             LeoCalendarCache.dutyRosterList = dutyRosterList;
         }
 
-        // 清空change_duty表数据
-        leoCalendarMapper.clearChangeDuty();
-        LeoCalendarCache.changeDutyList.clear();
+        // 清空当月change_duty数据
+        int month = calendar.get(Calendar.MONTH) + 1;
+        List<ChangeDuty> changeDutyList = LeoCalendarCache.changeDutyList.stream()
+        .filter(item -> (month == item.getMonth())).collect(Collectors.toList());
+        int deleteResult = leoCalendarMapper.deleteChangeDutys(changeDutyList);
+        if(deleteResult > 0) {
+            LeoCalendarCache.changeDutyList.removeAll(changeDutyList);
+        }
     }
 
     // 当月工作日
